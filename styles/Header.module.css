@@ -1,0 +1,149 @@
+.header {
+    background-image:
+        linear-gradient(to right, rgb(0 0 0 / .6), rgb(0 0 0 / .8)),
+        url('../public/img/header.jpg');
+    background-size: cover;
+    background-position: 50%;
+    padding: 5rem 0;
+    position: relative;
+}
+
+.header div {
+    max-width: 160rem;
+}
+
+.bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+}
+
+.bar::after {
+    content: '';
+    width: 320px;
+    height: 2px;
+    background-color: var(--primary);
+    margin: 13rem auto 0 auto;
+    position: absolute;
+    border-radius: 30rem;
+}
+
+.navBar {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.navBar a {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: .5rem;
+    transition-property: background-color;
+    transition-duration: .3s;
+}
+
+.navBar a:hover {
+    background-color: var(--primary);
+}
+
+.model {
+    color: var(--blanco);
+    margin-top: 5rem;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+@media (min-width: 992px) {
+    .model {
+        margin-left: auto;
+        width: 50%;
+        text-align: right;
+    }
+}
+
+@media (min-width: 1600px) {
+    .model {
+        margin: auto;
+        width: 50%;
+        text-align: center;
+    }
+}
+
+.model h2 {
+    font-size: 8rem;
+}
+
+.model p:first-of-type {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    font-size: 2.2rem;
+}
+
+.price {
+    font-size: 6rem;
+    color: var(--primary);
+    font-weight: 900;
+    line-height: 0;
+}
+
+.link {
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--blanco);
+    border: 2px solid var(--primary);
+    padding: 1rem 5rem;
+    transition-property: background-color;
+    transition: .3s;
+}
+
+.link:hover {
+    background-color: var(--primary);
+    color: var(--blanco);
+}
+
+.guitar {
+    display: none;
+    z-index: 1;
+}
+
+@media (min-width: 992px) {
+    .guitar {
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: -8px;
+        animation-name: showImage;
+        animation-duration: 1s;
+    }
+}
+
+@keyframes showImage {
+    0% {
+        opacity: 0;
+        transform: translateX(-10rem);
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
