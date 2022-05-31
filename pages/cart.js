@@ -2,9 +2,12 @@ import { useState, useEffect } from "react"
 import Layout from "../components/Layout"
 import Image from 'next/image'
 import styles from '../styles/Cart.module.css'
+import useGuitar from '../hooks/useGuitar'
 
-const Cart = ({ cart, updateQuantity, deleteProduct }) => {
+const Cart = () => {
     const [total, setTotal] = useState(0)
+
+    const { cart, updateQuantity, deleteProduct } = useGuitar()
 
     useEffect(() => {
         const calcTotal = cart.reduce(
@@ -26,7 +29,7 @@ const Cart = ({ cart, updateQuantity, deleteProduct }) => {
                         : (
                             cart.map(product => (
                                 <div
-                                    key={product._id}
+                                    key={product.id}
                                     className={styles.product}
                                 >
                                     <div>
@@ -66,7 +69,7 @@ const Cart = ({ cart, updateQuantity, deleteProduct }) => {
                                     <button
                                         type="button"
                                         className={styles.delete}
-                                        onClick={e => deleteProduct(product._id)}
+                                        onClick={e => deleteProduct(product.id)}
                                     >X</button>
                                 </div>
                             ))

@@ -2,10 +2,8 @@ import Layout from '../components/Layout'
 import Listing from '../components/Listing'
 import Course from '../components/Course'
 import BlogList from '../components/BlogList'
-import { useState } from 'react'
+
 export default function Home({ guitars, course, posts }) {
-    
-    
     return (
         <Layout
             page={'Home'}

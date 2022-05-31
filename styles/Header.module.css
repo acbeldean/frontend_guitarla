@@ -55,6 +55,17 @@
     background-color: var(--primary);
 }
 
+.cartCount {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: .5rem;
+    transition-property: background-color;
+    transition-duration: .3s;
+}
+
 .model {
     color: var(--blanco);
     margin-top: 5rem;

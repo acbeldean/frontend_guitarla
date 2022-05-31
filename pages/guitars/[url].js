@@ -1,13 +1,15 @@
 import { useState } from "react"
 import Image from 'next/image'
 import Layout from "../../components/Layout"
-import Link from 'next/link'
 import styles from '../../styles/Guitar.module.css'
+import useGuitar from "../../hooks/useGuitar"
 
-const Product = ({ guitar, addToCart }) => {
+const Product = ({ guitar }) => {
     const [quantity, setQuantity] = useState(1)
 
     const { id, name, description, image, price, url } = guitar[0]
+
+    const { addToCart } = useGuitar()
 
     const handleSubmit = e => {
         e.preventDefault()

@@ -9,7 +9,7 @@ const BlogList = ({ posts }) => {
             <div className={styles.blog}>
                 {posts.map(post => (
                     <Post
-                        key={post._id}
+                        key={post.id}
                         post={post}
                     />
                 ))}

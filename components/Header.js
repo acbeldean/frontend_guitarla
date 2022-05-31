@@ -1,11 +1,15 @@
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '../styles/Header.module.css'
+import useGuitar from '../hooks/useGuitar'
 
 const Header = ({ guitar }) => {
     const router = useRouter()
 
+    const { cartCount } = useGuitar()
+    
     return (
         <header className={styles.header}>
             <div className='contenedor'>
@@ -36,6 +40,7 @@ const Header = ({ guitar }) => {
                                 src='/img/cart.png'
                                 alt='Cart image'
                             />
+                            {cartCount > 0 && (<span className={styles.cartCount}>{cartCount}</span>)}
                         </a>
                     </Link>
                 </nav>
