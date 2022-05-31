@@ -76,7 +76,7 @@ const Cart = () => {
                         )}
                 </div>
                 <div className={styles.summary}>
-                    <h3>Order Summary</h3>
+                    <h2>Order Summary</h2>
                     {total > 0 ? (
                         <p>Total: ${total}</p>
                     ) : (
