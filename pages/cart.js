@@ -25,7 +25,7 @@ const Cart = () => {
                 <div className={styles.cart}>
                     <h2>Products</h2>
                     {cart.length === 0
-                        ? 'Empty cart'
+                        ? <p>Empty cart</p>
                         : (
                             cart.map(product => (
                                 <div
