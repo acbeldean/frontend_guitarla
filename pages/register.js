@@ -10,49 +10,55 @@ import { toast } from 'react-toastify';
 import useGuitar from "../hooks/useGuitar"
 import styles from '../styles/Register.module.css'
 
-const login = () => {
+const register = () => {
     const router = useRouter()
 
     const { setUser } = useGuitar()
 
     const userSchema = Yup.object().shape({
-        email: Yup.string().email('Invalid email format').required('Email cannot be blank'),
-        password: Yup.string().required('Password cannot be blank'),
+        username: Yup.string()
+            .required('Name cannot be blank')
+            .min(6, 'Name must have 6 characters or more')
+            .max(40, 'Name cannot have more than 40 characters')
+            .matches(/^[aA-zZ\s]+$/, 'Name can only contain Latin letters'),
+        email: Yup.string()
+            .required('Email cannot be blank')
+            .email('Invalid email format')
+            .max(40, 'email cannot have more than 40 characters'),
+        password: Yup.string()
+            .required('Password cannot be blank')
+            .min(6, 'Password must have 6 characters or more')
+            .max(40, 'Password cannot have more than 40 characters'),
+        passwordConfirm: Yup.string()
+            .required("Passwords don't match")
+            .oneOf([Yup.ref('password'), null], "Passwords don't match")
     })
 
     const handleSubmit = async values => {
-        const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/local`
+        const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/local/register`
         await axios.post(url, {
-            identifier: values.email,
+            username: values.username,
+            email: values.email,
             password: values.password
         }).then(function (response) {
-            let user = {
-                jtw: response.data.jwt,
-                id: response.data.user.id,
-                username: response.data.user.username,
-                email: response.data.user.email
-            }
-            setCookie(null, 'user', JSON.stringify(user), {
-                maxAge: 30 * 24 * 60 * 60,
-                path: '/',
-            })
-            setUser(user)
-            router.push('/')
+            router.push('/login')
         }).catch(function (error) {
-            toast.error('Incorrect credentials !')
+            toast.error('There was an error with the request !')
         });
     }
 
     return (
         <Layout
-            page={'Login'}
+            page={'Register'}
         >
-            <h1 className="heading">Login</h1>
+            <h1 className="heading">Register</h1>
             <main className='contenedor'>
                 <Formik
                     initialValues={{
+                        username: '',
                         email: '',
-                        password: ''
+                        password: '',
+                        passwordConfirm: ''
                     }}
                     onSubmit={(values, { resetForm }) => {
                         handleSubmit(values)
@@ -63,6 +69,18 @@ const login = () => {
                     {({ errors, touched }) => {
                         return (
                             <Form className={styles.form}>
+                                <div>
+                                    <label htmlFor="username">Name</label>
+                                    <Field
+                                        id='username'
+                                        name='username'
+                                        type='text'
+                                        placeholder='Johnny Test'
+                                    />
+                                    {errors.username && touched.username ? (
+                                        <Error>{errors.username}</Error>
+                                    ) : null}
+                                </div>
                                 <div>
                                     <label htmlFor="email">Email</label>
                                     <Field
@@ -87,9 +105,21 @@ const login = () => {
                                         <Error>{errors.password}</Error>
                                     ) : null}
                                 </div>
+                                <div>
+                                    <label htmlFor="passwordConfirm">Repeat Password</label>
+                                    <Field
+                                        id='passwordConfirm'
+                                        name='passwordConfirm'
+                                        type='password'
+                                        placeholder='**********'
+                                    />
+                                    {errors.passwordConfirm && touched.passwordConfirm ? (
+                                        <Error>{errors.passwordConfirm}</Error>
+                                    ) : null}
+                                </div>
                                 <input
                                     type='submit'
-                                    value='login'
+                                    value='register'
                                 />
                             </Form>
                         )
@@ -115,4 +145,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default login
+export default register

@@ -11,6 +11,7 @@ const About = () => {
         <h2 className='heading'>About Us</h2>
         <div className={styles.content}>
           <Image
+            priority
             layout='responsive'
             width={600}
             height={450}

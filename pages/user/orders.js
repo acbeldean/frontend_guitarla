@@ -5,7 +5,7 @@ const orders = () => {
 
     return (
         <Layout
-            page={'Login'}
+            page={'Orders'}
         >
             <main className='contenedor'>
                 
@@ -15,8 +15,8 @@ const orders = () => {
 }
 
 export async function getServerSideProps(ctx) {
-    const jwt = nookies.get(ctx).jwt
-    if (jwt === undefined) {
+    const user = nookies.get(ctx).user
+    if (user === undefined) {
         return {
             redirect: {
                 destination: "/login",

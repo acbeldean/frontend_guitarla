@@ -8,6 +8,7 @@ const Guitar = ({ guitar }) => {
     return (
         <div className={styles.guitar}>
             <Image
+                priority
                 layout='responsive'
                 width={200}
                 height={350}

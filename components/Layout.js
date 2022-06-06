@@ -2,6 +2,8 @@ import Head from 'next/head'
 import Header from './Header'
 import Footer from './Footer'
 import ScrollToTop from "react-scroll-to-top";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ children, page, guitar }) => {
     return (
@@ -25,6 +27,8 @@ const Layout = ({ children, page, guitar }) => {
             />
 
             {children}
+
+            <ToastContainer />
 
             <Footer />
         </div>

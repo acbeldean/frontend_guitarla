@@ -1,12 +1,20 @@
 import { createContext, useState, useEffect } from "react"
+import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import { useRouter } from "next/router"
+import { toast } from 'react-toastify'
 
 const GuitarContext = createContext()
 
 const GuitarProvider = ({ children }) => {
     const [cart, setCart] = useState([])
     const [cartCount, setCartCount] = useState(0)
+    const [user, setUser] = useState({})
+
+    const router = useRouter()
 
     useEffect(() => {
+        const userCookie = parseCookies().user ? JSON.parse(parseCookies().user) : {}
+        setUser(userCookie)
         const cartLS = JSON.parse(localStorage.getItem('cart')) ?? []
         setCart(cartLS)
     }, [])
@@ -33,6 +41,7 @@ const GuitarProvider = ({ children }) => {
         } else {
             setCart([...cart, product])
         }
+        toast.success('Item added to cart !')
     }
 
     const updateQuantity = (product, increase) => {
@@ -48,6 +57,13 @@ const GuitarProvider = ({ children }) => {
     const deleteProduct = id => {
         const updatedCart = cart.filter(product => product.id !== id)
         setCart(updatedCart)
+        toast.success('Item removed from cart !')
+    }
+
+    const logOut = () => {
+        destroyCookie(null, 'user')
+        setUser({})
+        router.push('/')
     }
 
     return (
@@ -55,9 +71,11 @@ const GuitarProvider = ({ children }) => {
             value={{
                 cart,
                 cartCount,
+                user, setUser,
                 updateQuantity,
                 addToCart,
-                deleteProduct
+                deleteProduct,
+                logOut
             }}
         >
             {children}

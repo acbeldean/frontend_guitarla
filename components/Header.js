@@ -6,10 +6,12 @@ import styles from '../styles/Header.module.css'
 import useGuitar from '../hooks/useGuitar'
 
 const Header = ({ guitar }) => {
+    const [active, setActive] = useState(false)
+
     const router = useRouter()
 
-    const { cartCount } = useGuitar()
-    
+    const { cartCount, user, logOut } = useGuitar()
+
     return (
         <header className={styles.header}>
             <div className='contenedor'>
@@ -17,6 +19,7 @@ const Header = ({ guitar }) => {
                     <Link href='/'>
                         <a>
                             <Image
+                                priority
                                 width={400}
                                 height={100}
                                 src={'/img/logo.svg'}
@@ -38,12 +41,44 @@ const Header = ({ guitar }) => {
                                 width={20}
                                 height={15}
                                 src='/img/cart.png'
-                                alt='Cart image'
+                                alt='Cart icon'
                             />
                             {cartCount > 0 && (<span className={styles.cartCount}>{cartCount}</span>)}
                         </a>
                     </Link>
                 </nav>
+
+                {user.id
+                    ? (
+                        <nav className={styles.dropdown}>
+                            <button
+                                type='button'
+                                onClick={() => setActive(!active)}
+                            >
+                                {user.username}
+                                <Image
+                                    layout='fixed'
+                                    width={20}
+                                    height={22}
+                                    src='/img/user.png'
+                                    alt='User icon'
+                                />
+                            </button>
+                            <ul className={`${active ? styles.active : ''}`}>
+                                <li><Link href='/'>Profile</Link></li>
+                                <li><Link href='/'>Orders</Link></li>
+                                <li><a onClick={() => logOut()}>Log Out</a></li>
+                            </ul>
+                        </nav>
+                    )
+                    : (
+                        <nav className={styles.userNavBar}>
+                            <Link href='/login'>Login</Link>
+                            <Link href='/register'>Register</Link>
+                        </nav>
+                    )
+                }
+
                 {guitar && (
                     <div className={styles.model}>
                         <h2>{guitar.name}</h2>
@@ -58,18 +93,22 @@ const Header = ({ guitar }) => {
                 )}
             </div>
 
-            {router.pathname === '/' && (
-                <div className={styles.guitar}>
-                    <Image
-                        layout='fixed'
-                        width={500}
-                        height={1000}
-                        src="/img/header_guitar.png"
-                        alt="guitar header image"
-                    />
-                </div>
-            )}
-        </header>
+            {
+                router.pathname === '/' && (
+                    <div className={styles.guitar}>
+                        <Image
+                            priority
+                            layout='fixed'
+                            width={500}
+                            height={1000}
+                            src="/img/header_guitar.png"
+                            alt="guitar header image"
+                        />
+                    </div>
+                )
+            }
+        </header >
+
     )
 }
 

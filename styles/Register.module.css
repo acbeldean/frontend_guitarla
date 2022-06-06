@@ -1,0 +1,65 @@
+.form {
+    display: grid;
+    grid-template-rows: 1;
+    justify-content: center;
+    gap: 1rem;
+    margin: -5rem auto 0 auto;
+    padding: 3rem;
+}
+
+.form div {
+    display: grid;
+    grid-template-rows: 1;
+}
+
+.form label {
+    font-size: 2.3rem;
+    font-weight: 700;
+    font-family: 'Outfit';
+}
+
+.form input {
+    width: 35rem;
+}
+
+@media (min-width: 688px) {
+    .form input {
+        width: 50rem;
+    }
+}
+
+.form input[type='text'],
+.form input[type='email'],
+.form input[type='password'] {
+    border: none;
+    padding: 1.1rem;
+    background-color: rgb(240 240 240);
+    text-align: center;
+    border-right: 4px solid var(--primary);
+    outline: none;
+}
+
+.form input[type='text']:focus,
+.form input[type='email']:focus,
+.form input[type='password']:focus {
+
+    background-color: rgb(200 200 200);
+}
+
+.form input[type='submit'] {
+    display: block;
+    margin-top: 1rem;
+    background-color: var(--primary);
+    text-transform: uppercase;
+    padding: 2rem;
+    border: none;
+    color: white;
+    font-weight: 700;
+}
+
+.form input[type='submit']:hover {
+    background-color: black;
+    transition-property: background-color;
+    transition: .3s;
+    cursor: pointer;
+}
