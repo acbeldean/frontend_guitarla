@@ -41,7 +41,7 @@ const GuitarProvider = ({ children }) => {
         } else {
             setCart([...cart, product])
         }
-        toast.success('Item added to cart !')
+        toast.success('Item added to cart.')
     }
 
     const updateQuantity = (product, increase) => {
@@ -57,7 +57,7 @@ const GuitarProvider = ({ children }) => {
     const deleteProduct = id => {
         const updatedCart = cart.filter(product => product.id !== id)
         setCart(updatedCart)
-        toast.success('Item removed from cart !')
+        toast.success('Item removed from cart.')
     }
 
     const logOut = () => {

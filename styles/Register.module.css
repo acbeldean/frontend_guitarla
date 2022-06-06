@@ -9,7 +9,6 @@
 
 .form div {
     display: grid;
-    grid-template-rows: 1;
 }
 
 .form label {

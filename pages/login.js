@@ -39,7 +39,7 @@ const login = () => {
             setUser(user)
             router.push('/')
         }).catch(function (error) {
-            toast.error('Incorrect credentials !')
+            toast.error('Incorrect credentials.')
         });
     }
 

@@ -1,9 +1,10 @@
 .content {
     display: grid;
-    
+
 }
 
-.content h2, .content h3 {
+.content h2,
+.content h3 {
     margin: 0;
     padding: 0;
 }
@@ -99,4 +100,46 @@
     background-color: #F9FAFB;
     padding: 3rem;
     border-radius: 1rem;
+}
+
+.total {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.orderButton {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+    background-color: var(--primary);
+    text-transform: uppercase;
+    padding: 2rem;
+    border: none;
+    color: white;
+    font-weight: 700;
+    text-align: center;
+}
+
+.orderButton:hover {
+    background-color: black;
+    transition-property: background-color;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.error {
+    color: darkred;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.error:last-child {
+    border-bottom: 2px solid darkred;
+}
+
+.error a {
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--primary);
 }

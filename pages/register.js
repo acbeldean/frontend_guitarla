@@ -43,8 +43,12 @@ const register = () => {
         }).then(function (response) {
             router.push('/login')
         }).catch(function (error) {
-            toast.error('There was an error with the request !')
-        });
+            if (error.response) {
+                toast.error(error.response.data.message[0].messages[0].message)
+            } else {
+                toast.error('There was an error with the request.')
+            }
+        })
     }
 
     return (

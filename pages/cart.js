@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react"
 import Layout from "../components/Layout"
 import Image from 'next/image'
+import Link from "next/link"
 import styles from '../styles/Cart.module.css'
 import useGuitar from '../hooks/useGuitar'
 
 const Cart = () => {
     const [total, setTotal] = useState(0)
 
-    const { cart, updateQuantity, deleteProduct } = useGuitar()
+    const { cart, updateQuantity, deleteProduct, user } = useGuitar()
 
     useEffect(() => {
         const calcTotal = cart.reduce(
@@ -78,7 +79,26 @@ const Cart = () => {
                 <div className={styles.summary}>
                     <h2>Order Summary</h2>
                     {total > 0 ? (
-                        <p>Total: ${total}</p>
+                        <div>
+                            <p>Subtotal: ${(total - (total * 0.2)).toFixed(2)}</p>
+                            <p>Tax (VAT 20%): ${(total * 0.2).toFixed(2)}</p>
+                            <p>Total: <span className={styles.total}>${total}</span></p>
+                            {user.id
+                                ? (
+                                    <button className={styles.orderButton}>
+                                        Place order
+                                    </button>
+                                )
+                                : (
+                                    <>
+                                        <p className={styles.error}>You must be logged in to place an order</p>
+                                        <p className={styles.error}>
+                                            <Link href={`/login`}>Login</Link> now or <Link href={`/register`}>Register</Link>
+                                        </p>
+                                    </>
+                                )
+                            }
+                        </div>
                     ) : (
                         <p>No products</p>
                     )}
