@@ -197,6 +197,7 @@
 
 .model h2 {
     font-size: 8rem;
+    margin-top: 3rem;
 }
 
 .model p:first-of-type {
@@ -235,6 +236,16 @@
 .guitar {
     display: none;
     z-index: 1;
+}
+
+.loader {
+    margin: 1rem auto 0 auto;
+    width: 50px;
+    height: 31px;
+}
+
+.loader div {
+    margin: 0;
 }
 
 @media (min-width: 992px) {

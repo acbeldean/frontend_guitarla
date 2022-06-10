@@ -9,8 +9,13 @@ import * as Yup from 'Yup'
 import { toast } from 'react-toastify';
 import styles from '../styles/Register.module.css'
 import useAuth from "../hooks/useAuth"
+import { useState } from "react"
+import Loader from "../components/Loader"
 
 const login = () => {
+
+    const [loading, setLoading] = useState(false)
+
     const router = useRouter()
 
     const { setAuth } = useAuth()
@@ -21,6 +26,7 @@ const login = () => {
     })
 
     const handleSubmit = async values => {
+        setLoading(true)
         const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/local`
         await axios.post(url, {
             identifier: values.email,
@@ -38,7 +44,7 @@ const login = () => {
             router.push('/')
         }).catch(function (error) {
             toast.error('Incorrect credentials.')
-            console.log(error)
+            setLoading(false)
         })
     }
 
@@ -48,52 +54,54 @@ const login = () => {
         >
             <h1 className="heading">Login</h1>
             <main className='contenedor'>
-                <Formik
-                    initialValues={{
-                        email: '',
-                        password: ''
-                    }}
-                    onSubmit={(values, { resetForm }) => {
-                        handleSubmit(values)
-                        resetForm()
-                    }}
-                    validationSchema={userSchema}
-                >
-                    {({ errors, touched }) => {
-                        return (
-                            <Form className={styles.form}>
-                                <div>
-                                    <label htmlFor="email">Email</label>
-                                    <Field
-                                        id='email'
-                                        name='email'
-                                        type='email'
-                                        placeholder='myemail@example.com'
+                {loading ? <Loader /> : (
+                    <Formik
+                        initialValues={{
+                            email: '',
+                            password: ''
+                        }}
+                        onSubmit={(values, { resetForm }) => {
+                            handleSubmit(values)
+                            resetForm()
+                        }}
+                        validationSchema={userSchema}
+                    >
+                        {({ errors, touched }) => {
+                            return (
+                                <Form className={styles.form}>
+                                    <div>
+                                        <label htmlFor="email">Email</label>
+                                        <Field
+                                            id='email'
+                                            name='email'
+                                            type='email'
+                                            placeholder='myemail@example.com'
+                                        />
+                                        {errors.email && touched.email ? (
+                                            <Error>{errors.email}</Error>
+                                        ) : null}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="password">Password</label>
+                                        <Field
+                                            id='password'
+                                            name='password'
+                                            type='password'
+                                            placeholder='**********'
+                                        />
+                                        {errors.password && touched.password ? (
+                                            <Error>{errors.password}</Error>
+                                        ) : null}
+                                    </div>
+                                    <input
+                                        type='submit'
+                                        value='login'
                                     />
-                                    {errors.email && touched.email ? (
-                                        <Error>{errors.email}</Error>
-                                    ) : null}
-                                </div>
-                                <div>
-                                    <label htmlFor="password">Password</label>
-                                    <Field
-                                        id='password'
-                                        name='password'
-                                        type='password'
-                                        placeholder='**********'
-                                    />
-                                    {errors.password && touched.password ? (
-                                        <Error>{errors.password}</Error>
-                                    ) : null}
-                                </div>
-                                <input
-                                    type='submit'
-                                    value='login'
-                                />
-                            </Form>
-                        )
-                    }}
-                </Formik>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+                )}
             </main>
         </Layout>
     )

@@ -1,16 +1,24 @@
+import { useState } from "react"
 import Layout from "../components/Layout"
 import Error from "../components/Error"
+import Loader from "../components/Loader"
 import axios from "axios"
 import nookies from 'nookies'
-import { setCookie } from 'nookies'
+import { setCookie } from "nookies"
 import { useRouter } from "next/router"
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'Yup'
 import { toast } from 'react-toastify'
+import useAuth from "../hooks/useAuth"
 import styles from '../styles/Register.module.css'
 
 const register = () => {
+
+    const [loading, setLoading] = useState(false)
+
     const router = useRouter()
+
+    const { setAuth } = useAuth()
 
     const userSchema = Yup.object().shape({
         username: Yup.string()
@@ -32,20 +40,31 @@ const register = () => {
     })
 
     const handleSubmit = async values => {
+        setLoading(true)
         const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/local/register`
-        await axios.post(url, {
-            username: values.username,
-            email: values.email,
-            password: values.password
-        }).then(function (response) {
-            router.push('/login')
-        }).catch(function (error) {
+        try {
+            const { data } = await axios.post(url, {
+                username: values.username,
+                email: values.email,
+                password: values.password
+            })
+            const { jwt: token, user } = data
+            const { username } = user
+            setAuth({ token, username })
+            setCookie(null, 'token', token, {
+                maxAge: 30 * 24 * 60 * 60,
+                path: '/',
+            })
+        } catch (error) {
             if (error.response) {
                 toast.error(error.response.data.message[0].messages[0].message)
             } else {
-                toast.error('There was an error with the request.')
+                // console.log(error)
             }
-        })
+            setLoading(false)
+        } finally {
+            router.push('/')
+        }
     }
 
     return (
@@ -54,78 +73,81 @@ const register = () => {
         >
             <h1 className="heading">Register</h1>
             <main className='contenedor'>
-                <Formik
-                    initialValues={{
-                        username: '',
-                        email: '',
-                        password: '',
-                        passwordConfirm: ''
-                    }}
-                    onSubmit={(values, { resetForm }) => {
-                        handleSubmit(values)
-                        resetForm()
-                    }}
-                    validationSchema={userSchema}
-                >
-                    {({ errors, touched }) => {
-                        return (
-                            <Form className={styles.form}>
-                                <div>
-                                    <label htmlFor="username">Name</label>
-                                    <Field
-                                        id='username'
-                                        name='username'
-                                        type='text'
-                                        placeholder='Johnny Test'
+                {loading ? <Loader /> : (
+                    <Formik
+                        initialValues={{
+                            username: '',
+                            email: '',
+                            password: '',
+                            passwordConfirm: ''
+                        }}
+                        onSubmit={(values, { resetForm }) => {
+                            handleSubmit(values)
+                            resetForm()
+                        }}
+                        validationSchema={userSchema}
+                    >
+                        {({ errors, touched }) => {
+                            return (
+                                <Form className={styles.form}>
+                                    <div>
+                                        <label htmlFor="username">Name</label>
+                                        <Field
+                                            id='username'
+                                            name='username'
+                                            type='text'
+                                            placeholder='Johnny Test'
+                                        />
+                                        {errors.username && touched.username ? (
+                                            <Error>{errors.username}</Error>
+                                        ) : null}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email">Email</label>
+                                        <Field
+                                            id='email'
+                                            name='email'
+                                            type='email'
+                                            placeholder='myemail@example.com'
+                                        />
+                                        {errors.email && touched.email ? (
+                                            <Error>{errors.email}</Error>
+                                        ) : null}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="password">Password</label>
+                                        <Field
+                                            id='password'
+                                            name='password'
+                                            type='password'
+                                            placeholder='**********'
+                                        />
+                                        {errors.password && touched.password ? (
+                                            <Error>{errors.password}</Error>
+                                        ) : null}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="passwordConfirm">Repeat Password</label>
+                                        <Field
+                                            id='passwordConfirm'
+                                            name='passwordConfirm'
+                                            type='password'
+                                            placeholder='**********'
+                                        />
+                                        {errors.passwordConfirm && touched.passwordConfirm ? (
+                                            <Error>{errors.passwordConfirm}</Error>
+                                        ) : null}
+                                    </div>
+                                    <input
+                                        type='submit'
+                                        value='register'
                                     />
-                                    {errors.username && touched.username ? (
-                                        <Error>{errors.username}</Error>
-                                    ) : null}
-                                </div>
-                                <div>
-                                    <label htmlFor="email">Email</label>
-                                    <Field
-                                        id='email'
-                                        name='email'
-                                        type='email'
-                                        placeholder='myemail@example.com'
-                                    />
-                                    {errors.email && touched.email ? (
-                                        <Error>{errors.email}</Error>
-                                    ) : null}
-                                </div>
-                                <div>
-                                    <label htmlFor="password">Password</label>
-                                    <Field
-                                        id='password'
-                                        name='password'
-                                        type='password'
-                                        placeholder='**********'
-                                    />
-                                    {errors.password && touched.password ? (
-                                        <Error>{errors.password}</Error>
-                                    ) : null}
-                                </div>
-                                <div>
-                                    <label htmlFor="passwordConfirm">Repeat Password</label>
-                                    <Field
-                                        id='passwordConfirm'
-                                        name='passwordConfirm'
-                                        type='password'
-                                        placeholder='**********'
-                                    />
-                                    {errors.passwordConfirm && touched.passwordConfirm ? (
-                                        <Error>{errors.passwordConfirm}</Error>
-                                    ) : null}
-                                </div>
-                                <input
-                                    type='submit'
-                                    value='register'
-                                />
-                            </Form>
-                        )
-                    }}
-                </Formik>
+                                </Form>
+                            )
+                        }}
+                    </Formik>
+                )}
+
             </main>
         </Layout>
     )

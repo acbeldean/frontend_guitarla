@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import Loader from '../components/Loader'
 import styles from '../styles/Header.module.css'
 import useGuitar from '../hooks/useGuitar'
 import useAuth from '../hooks/useAuth'
@@ -14,7 +15,7 @@ const Header = ({ guitar }) => {
 
     const { cartCount } = useGuitar()
 
-    const { auth, logOut } = useAuth()
+    const { auth, authLoading, logOut } = useAuth()
     const { username } = auth
 
     return (
@@ -53,33 +54,38 @@ const Header = ({ guitar }) => {
                     </Link>
                 </nav>
 
-                {username ? (
-                    <nav className={styles.dropdown}>
-                        <button
-                            type='button'
-                            onClick={() => setActive(!active)}
-                        >
-                            {username}
-                            <Image
-                                layout='fixed'
-                                width={20}
-                                height={22}
-                                src='/img/user.png'
-                                alt='User icon'
-                            />
-                        </button>
-                        <ul className={`${active ? styles.active : ''}`}>
-                            <li><Link href='/'>Profile</Link></li>
-                            <li><Link href='/'>My Orders</Link></li>
-                            <li><a onClick={() => logOut()}>Log Out</a></li>
-                        </ul>
-                    </nav>
-                ) : (
-                    <nav className={styles.userNavBar}>
-                        <Link href='/login'>Login</Link>
-                        <Link href='/register'>Register</Link>
-                    </nav>
-                )}
+                {authLoading ? (
+                    <div className={styles.loader}>
+                        <Loader />
+                    </div>
+                ) : username ?
+                    (
+                        <nav className={styles.dropdown}>
+                            <button
+                                type='button'
+                                onClick={() => setActive(!active)}
+                            >
+                                {username}
+                                <Image
+                                    layout='fixed'
+                                    width={20}
+                                    height={22}
+                                    src='/img/user.png'
+                                    alt='User icon'
+                                />
+                            </button>
+                            <ul className={`${active ? styles.active : ''}`}>
+                                <li><Link href='/'>Profile</Link></li>
+                                <li><Link href='/'>My Orders</Link></li>
+                                <li><a onClick={() => logOut()}>Log Out</a></li>
+                            </ul>
+                        </nav>
+                    ) : (
+                        <nav className={styles.userNavBar}>
+                            <Link href='/login'>Login</Link>
+                            <Link href='/register'>Register</Link>
+                        </nav>
+                    )}
 
                 {guitar && (
                     <div className={styles.model}>

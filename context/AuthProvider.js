@@ -8,6 +8,7 @@ const AuthContext = createContext()
 const AuthProvider = ({ children }) => {
 
     const [auth, setAuth] = useState({})
+    const [authLoading, setAuthLoading] = useState(true)
 
     const router = useRouter()
 
@@ -15,6 +16,7 @@ const AuthProvider = ({ children }) => {
         const getAuth = async () => {
             const { token } = parseCookies()
             if (token) {
+                setAuthLoading(true)
                 const url = `${process.env.NEXT_PUBLIC_API_URL}/users/me`
                 await axios(url, {
                     headers: {
@@ -27,9 +29,14 @@ const AuthProvider = ({ children }) => {
                         username,
                         token
                     })
+                    setAuthLoading(false)
                 }).catch(function (error) {
-                    console.log(error)
+                    destroyCookie(null, 'token')
                 })
+            } else {
+                setTimeout(() => {
+                    setAuthLoading(false)
+                }, 500);
             }
         }
         getAuth()
@@ -45,6 +52,7 @@ const AuthProvider = ({ children }) => {
         <AuthContext.Provider
             value={{
                 auth, setAuth,
+                authLoading,
                 logOut
             }}
         >
