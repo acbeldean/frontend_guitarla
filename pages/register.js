@@ -6,14 +6,11 @@ import { setCookie } from 'nookies'
 import { useRouter } from "next/router"
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'Yup'
-import { toast } from 'react-toastify';
-import useGuitar from "../hooks/useGuitar"
+import { toast } from 'react-toastify'
 import styles from '../styles/Register.module.css'
 
 const register = () => {
     const router = useRouter()
-
-    const { setUser } = useGuitar()
 
     const userSchema = Yup.object().shape({
         username: Yup.string()
@@ -135,8 +132,8 @@ const register = () => {
 }
 
 export async function getServerSideProps(ctx) {
-    const user = nookies.get(ctx).user
-    if (user !== undefined) {
+    const token = nookies.get(ctx).token
+    if (token !== undefined) {
         return {
             redirect: {
                 destination: "/",

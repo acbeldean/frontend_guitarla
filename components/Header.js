@@ -4,13 +4,18 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import styles from '../styles/Header.module.css'
 import useGuitar from '../hooks/useGuitar'
+import useAuth from '../hooks/useAuth'
 
 const Header = ({ guitar }) => {
+
     const [active, setActive] = useState(false)
 
     const router = useRouter()
 
-    const { cartCount, user, logOut } = useGuitar()
+    const { cartCount } = useGuitar()
+
+    const { auth, logOut } = useAuth()
+    const { username } = auth
 
     return (
         <header className={styles.header}>
@@ -48,36 +53,33 @@ const Header = ({ guitar }) => {
                     </Link>
                 </nav>
 
-                {user.id
-                    ? (
-                        <nav className={styles.dropdown}>
-                            <button
-                                type='button'
-                                onClick={() => setActive(!active)}
-                            >
-                                {user.username}
-                                <Image
-                                    layout='fixed'
-                                    width={20}
-                                    height={22}
-                                    src='/img/user.png'
-                                    alt='User icon'
-                                />
-                            </button>
-                            <ul className={`${active ? styles.active : ''}`}>
-                                <li><Link href='/'>Profile</Link></li>
-                                <li><Link href='/'>My Orders</Link></li>
-                                <li><a onClick={() => logOut()}>Log Out</a></li>
-                            </ul>
-                        </nav>
-                    )
-                    : (
-                        <nav className={styles.userNavBar}>
-                            <Link href='/login'>Login</Link>
-                            <Link href='/register'>Register</Link>
-                        </nav>
-                    )
-                }
+                {username ? (
+                    <nav className={styles.dropdown}>
+                        <button
+                            type='button'
+                            onClick={() => setActive(!active)}
+                        >
+                            {username}
+                            <Image
+                                layout='fixed'
+                                width={20}
+                                height={22}
+                                src='/img/user.png'
+                                alt='User icon'
+                            />
+                        </button>
+                        <ul className={`${active ? styles.active : ''}`}>
+                            <li><Link href='/'>Profile</Link></li>
+                            <li><Link href='/'>My Orders</Link></li>
+                            <li><a onClick={() => logOut()}>Log Out</a></li>
+                        </ul>
+                    </nav>
+                ) : (
+                    <nav className={styles.userNavBar}>
+                        <Link href='/login'>Login</Link>
+                        <Link href='/register'>Register</Link>
+                    </nav>
+                )}
 
                 {guitar && (
                     <div className={styles.model}>
@@ -93,20 +95,18 @@ const Header = ({ guitar }) => {
                 )}
             </div>
 
-            {
-                router.pathname === '/' && (
-                    <div className={styles.guitar}>
-                        <Image
-                            priority
-                            layout='fixed'
-                            width={500}
-                            height={1000}
-                            src="/img/header_guitar.png"
-                            alt="guitar header image"
-                        />
-                    </div>
-                )
-            }
+            {router.pathname === '/' && (
+                <div className={styles.guitar}>
+                    <Image
+                        priority
+                        layout='fixed'
+                        width={500}
+                        height={1000}
+                        src="/img/header_guitar.png"
+                        alt="guitar header image"
+                    />
+                </div>
+            )}
         </header >
 
     )

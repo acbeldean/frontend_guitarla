@@ -7,13 +7,13 @@ import { useRouter } from "next/router"
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'Yup'
 import { toast } from 'react-toastify';
-import useGuitar from "../hooks/useGuitar"
 import styles from '../styles/Register.module.css'
+import useAuth from "../hooks/useAuth"
 
 const login = () => {
     const router = useRouter()
 
-    const { setUser } = useGuitar()
+    const { setAuth } = useAuth()
 
     const userSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email format').required('Email cannot be blank'),
@@ -26,21 +26,20 @@ const login = () => {
             identifier: values.email,
             password: values.password
         }).then(function (response) {
-            let user = {
-                jtw: response.data.jwt,
-                id: response.data.user.id,
+            let auth = {
                 username: response.data.user.username,
-                email: response.data.user.email
+                token: response.data.jwt
             }
-            setCookie(null, 'user', JSON.stringify(user), {
+            setCookie(null, 'token', auth.token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
             })
-            setUser(user)
+            setAuth(auth)
             router.push('/')
         }).catch(function (error) {
             toast.error('Incorrect credentials.')
-        });
+            console.log(error)
+        })
     }
 
     return (
@@ -101,8 +100,8 @@ const login = () => {
 }
 
 export async function getServerSideProps(ctx) {
-    const user = nookies.get(ctx).user
-    if (user !== undefined) {
+    const token = nookies.get(ctx).token
+    if (token !== undefined) {
         return {
             redirect: {
                 destination: "/",

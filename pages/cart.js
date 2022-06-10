@@ -4,11 +4,14 @@ import Image from 'next/image'
 import Link from "next/link"
 import styles from '../styles/Cart.module.css'
 import useGuitar from '../hooks/useGuitar'
+import useAuth from "../hooks/useAuth"
 
 const Cart = () => {
     const [total, setTotal] = useState(0)
 
-    const { cart, updateQuantity, deleteProduct, user } = useGuitar()
+    const { cart, updateQuantity, deleteProduct } = useGuitar()
+
+    const { auth } = useAuth()
 
     useEffect(() => {
         const calcTotal = cart.reduce(
@@ -83,7 +86,7 @@ const Cart = () => {
                             <p>Subtotal: ${(total - (total * 0.2)).toFixed(2)}</p>
                             <p>Tax (VAT 20%): ${(total * 0.2).toFixed(2)}</p>
                             <p>Total: <span className={styles.total}>${total}</span></p>
-                            {user.id
+                            {auth.token
                                 ? (
                                     <button className={styles.orderButton}>
                                         Place order

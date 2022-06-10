@@ -1,26 +1,26 @@
 import { createContext, useState, useEffect } from "react"
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
-import { useRouter } from "next/router"
 import { toast } from 'react-toastify'
 
 const GuitarContext = createContext()
 
 const GuitarProvider = ({ children }) => {
+
     const [cart, setCart] = useState([])
     const [cartCount, setCartCount] = useState(0)
-    const [user, setUser] = useState({})
-
-    const router = useRouter()
 
     useEffect(() => {
-        const userCookie = parseCookies().user ? JSON.parse(parseCookies().user) : {}
-        setUser(userCookie)
-        const cartLS = JSON.parse(localStorage.getItem('cart')) ?? []
-        setCart(cartLS)
+        const { cart: cartCookie } = parseCookies()
+        if (cartCookie) {
+            setCart(JSON.parse(cartCookie))
+        }
     }, [])
 
     useEffect(() => {
-        localStorage.setItem('cart', JSON.stringify(cart))
+        setCookie(null, 'cart', JSON.stringify(cart), {
+            maxAge: 30 * 24 * 60 * 60,
+            path: '/',
+        })
 
         let count = 0
         if (cart.length > 0) {
@@ -60,22 +60,14 @@ const GuitarProvider = ({ children }) => {
         toast.success('Item removed from cart.')
     }
 
-    const logOut = () => {
-        destroyCookie(null, 'user')
-        setUser({})
-        router.push('/')
-    }
-
     return (
         <GuitarContext.Provider
             value={{
                 cart,
                 cartCount,
-                user, setUser,
                 updateQuantity,
                 addToCart,
                 deleteProduct,
-                logOut
             }}
         >
             {children}

@@ -15,11 +15,11 @@ const orders = () => {
 }
 
 export async function getServerSideProps(ctx) {
-    const user = nookies.get(ctx).user
-    if (user === undefined) {
+    const token = nookies.get(ctx).token
+    if (token === undefined) {
         return {
             redirect: {
-                destination: "/login",
+                destination: "/",
                 permanent: false,
             },
         };
