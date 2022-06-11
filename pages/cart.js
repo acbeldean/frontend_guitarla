@@ -5,6 +5,7 @@ import Link from "next/link"
 import styles from '../styles/Cart.module.css'
 import useGuitar from '../hooks/useGuitar'
 import useAuth from "../hooks/useAuth"
+import { useRouter } from "next/router"
 
 const Cart = () => {
     const [total, setTotal] = useState(0)
@@ -12,6 +13,8 @@ const Cart = () => {
     const { cart, updateQuantity, deleteProduct } = useGuitar()
 
     const { auth } = useAuth()
+
+    const router = useRouter()
 
     useEffect(() => {
         const calcTotal = cart.reduce(
@@ -96,7 +99,13 @@ const Cart = () => {
                                     <>
                                         <p className={styles.error}>You must be logged in to place an order</p>
                                         <p className={styles.error}>
-                                            <Link href={`/login`}>Login</Link> now or <Link href={`/register`}>Register</Link>
+                                            <Link href={{
+                                                pathname: '/login',
+                                                query: { path: router.pathname }
+                                            }}>Login</Link> now or <Link href={{
+                                                pathname: '/register',
+                                                query: { path: router.pathname },
+                                            }}>Register</Link>
                                         </p>
                                     </>
                                 )

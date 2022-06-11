@@ -63,7 +63,11 @@ const register = () => {
             }
             setLoading(false)
         } finally {
-            router.push('/')
+            if (router.query.path) {
+                router.push(router.query.path)
+            } else {
+                router.push('/')
+            }
         }
     }
 

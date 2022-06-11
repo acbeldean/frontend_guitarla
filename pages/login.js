@@ -41,7 +41,12 @@ const login = () => {
                 path: '/',
             })
             setAuth(auth)
-            router.push('/')
+            if (router.query.path) {
+                router.push(router.query.path)
+            } else {
+                router.push('/')
+            }
+
         }).catch(function (error) {
             toast.error('Incorrect credentials.')
             setLoading(false)
