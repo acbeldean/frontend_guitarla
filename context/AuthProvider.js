@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
                     setAuthLoading(false)
                 }).catch(function (error) {
                     destroyCookie(null, 'token')
+                    setAuthLoading(false)
                 })
             } else {
                 setTimeout(() => {

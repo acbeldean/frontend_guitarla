@@ -63,7 +63,7 @@ const GuitarProvider = ({ children }) => {
     return (
         <GuitarContext.Provider
             value={{
-                cart,
+                cart, setCart,
                 cartCount,
                 updateQuantity,
                 addToCart,
