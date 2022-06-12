@@ -40,7 +40,9 @@ const Cart = () => {
             })
             destroyCookie(null, 'cart')
             setCart([])
-            router.push('/user/orders')
+            setTimeout(() => {
+                router.push('/user/orders')
+            }, 200)
         } catch (error) {
             setLoading(false)
             toast.error('There was an error with the request.')

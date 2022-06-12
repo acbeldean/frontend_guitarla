@@ -1,4 +1,91 @@
 .table {
     width: 100%;
+    background-color: #f2f2f2;
+    border-radius: 2rem;
+    border-collapse: collapse;
     text-align: center;
+}
+
+.table tbody tr {
+    border-bottom: 1px solid gray;
+    transition-property: all;
+    transition-duration: .3s;
+}
+
+.table tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+.table tbody tr:last-of-type td:last-of-type {
+    border-radius: 0 0 1rem 0;
+}
+
+.table tbody tr:last-of-type td:first-of-type {
+    border-radius: 0 0 0 1rem;
+}
+
+.table tbody tr:hover {
+    background-color: #e3e3e3;
+}
+
+.table th {
+    padding: 1rem;
+    background-color: var(--negro);
+    color: var(--blanco);
+}
+
+.table th:first-of-type {
+    border-radius: 1rem 0 0 0;
+}
+
+.table th:last-of-type {
+    border-radius: 0 1rem 0 0;
+}
+
+.table td {
+    padding: 1rem;
+}
+
+.table .price {
+    color: var(--primary);
+    font-weight: 900;
+}
+
+.table a {
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--negro);
+    transition-property: all;
+    transition-duration: .3s;
+}
+
+.table a:hover {
+    color: var(--primary);
+}
+
+@media (max-width: 40em) {
+
+    .table tbody tr {
+        border: none;
+    }
+
+    .table tbody tr:nth-child(even) {
+        background-color: #e3e3e3;
+    }
+
+    .table tbody tr:nth-child(even):hover {
+        background-color: #e3e3e3;
+    }
+
+    .table tbody tr:nth-child(odd):hover {
+        background-color: #f2f2f2;
+    }
+
+    .table tbody tr:first-of-type {
+        border-radius: 1rem 1rem 0 0;
+    }
+
+    .table tbody tr:last-of-type {
+        border-radius: 0 0 1rem 1rem;
+    }
 }

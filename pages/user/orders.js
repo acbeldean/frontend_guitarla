@@ -8,10 +8,6 @@ import styles from '../../styles/Orders.module.css'
 import { formatDateLong } from '../../helpers'
 
 const orders = ({ orders }) => {
-
-    console.log(orders)
-
-
     return (
         <Layout
             page={'Orders'}
@@ -20,7 +16,7 @@ const orders = ({ orders }) => {
                 <h1 className='heading'>Order History</h1>
 
                 <Table className={styles.table}>
-                    <Thead className={styles.thead}>
+                    <Thead>
                         <Tr>
                             <Th>ORDER</Th>
                             <Th>DATE</Th>
@@ -28,13 +24,19 @@ const orders = ({ orders }) => {
                             <Th>TOTAL</Th>
                         </Tr>
                     </Thead>
-                    <Tbody className={styles.tbody}>
+                    <Tbody>
                         {orders.map(o => (
                             <Tr key={o.id}>
-                                <Td>{o.id}</Td>
+                                <Td>
+                                    <Link
+                                        href={`/user/order/${o.id}`}
+                                    >
+                                        {o.id}
+                                    </Link>
+                                </Td>
                                 <Td>{formatDateLong(o.createdAt)}</Td>
                                 <Td>{o.status}</Td>
-                                <Td>{o.total}</Td>
+                                <Td><span className={styles.price}>${o.total}</span></Td>
                             </Tr>
                         ))}
                     </Tbody>
@@ -63,7 +65,10 @@ export async function getServerSideProps(ctx) {
                 Authorization: `Bearer ${token}`
             }
         })
-        orders = data
+        orders = data.map(order => {
+            const { cart, owner, published_at, updatedAt, __v, ...newOrder } = order
+            return newOrder
+        })
     } catch (error) {
         nookies.destroy(ctx, 'token')
         return {
