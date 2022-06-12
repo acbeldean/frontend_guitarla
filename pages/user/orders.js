@@ -10,7 +10,7 @@ import { formatDateLong } from '../../helpers'
 const orders = ({ orders }) => {
     return (
         <Layout
-            page={'Orders'}
+            page={'Order History'}
         >
             <main className='contenedor'>
                 <h1 className='heading'>Order History</h1>

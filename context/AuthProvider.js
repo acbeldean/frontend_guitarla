@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
             } else {
                 setTimeout(() => {
                     setAuthLoading(false)
-                }, 500);
+                }, 300);
             }
         }
         getAuth()
@@ -46,9 +46,7 @@ const AuthProvider = ({ children }) => {
     const logOut = () => {
         destroyCookie(null, 'token')
         setAuth({})
-        setTimeout(() => {
-            router.push('/')
-        }, 200)
+        router.push('/')
     }
 
     return (

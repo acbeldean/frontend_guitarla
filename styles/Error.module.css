@@ -1,17 +1,11 @@
 .error {
-    max-width: 30rem;
+    max-width: 50rem;
     color: darkred;
     padding: .5rem;
     margin-top: 1rem;
     border-bottom: 2px solid darkred;
     text-align: center;
     position: relative;
-}
-
-@media (min-width: 688px) {
-    .error {
-        max-width: 50rem;
-    }
 }
 
 .error svg {

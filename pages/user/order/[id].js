@@ -11,7 +11,7 @@ const Order = ({ order }) => {
 
     return (
         <Layout
-            page={'Shopping Cart'}
+            page={'Order Details'}
         >
             <h1 className="heading">Order Details</h1>
             <main className={`contenedor ${styles.content}`}>
