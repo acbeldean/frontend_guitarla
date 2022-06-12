@@ -32,7 +32,7 @@ const Cart = () => {
         try {
             setLoading(true)
             const url = `${process.env.NEXT_PUBLIC_API_URL}/orders`
-            await axios.post(url, { cart }, {
+            await axios.post(url, { cart, total }, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${auth.token}`

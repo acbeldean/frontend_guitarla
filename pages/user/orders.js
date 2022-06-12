@@ -1,108 +1,44 @@
-import { useMemo } from "react"
+import Link from 'next/link'
 import Layout from "../../components/Layout"
 import nookies from 'nookies'
 import axios from "axios"
-import { useTable } from 'react-table'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
+import styles from '../../styles/Orders.module.css'
+import { formatDateLong } from '../../helpers'
 
 const orders = ({ orders }) => {
 
     console.log(orders)
 
-    const headers = [
-        {
-            Header: '',
-            accessor: 'image',
-        },
-        {
-            Header: 'Product',
-            accessor: 'name',
-        },
-        {
-            Header: 'Price',
-            accessor: 'price',
-        },
-        {
-            Header: 'Quantity',
-            accessor: 'quantity',
-        },
-        {
-            Header: 'Total',
-            accessor: 'total',
-        },
-    ]
-    const columns = useMemo(() => headers, [])
-
-    const data = useMemo(
-        () => [
-            {
-                image: 'Hello',
-                name: 'World',
-                price: '',
-                quantity: 23,
-                total: 7263
-            }
-        ],
-        []
-    )
-
-    const tableInstance = useTable({ columns, data })
-    const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
-    } = tableInstance
 
     return (
         <Layout
             page={'Orders'}
         >
             <main className='contenedor'>
-                <h1 className='heading'>My Orders</h1>
+                <h1 className='heading'>Order History</h1>
 
-                <table {...getTableProps()}>
-                    <thead>
-                        {// Loop over the header rows
-                            headerGroups.map(headerGroup => (
-                                // Apply the header row props
-                                <tr {...headerGroup.getHeaderGroupProps()}>
-                                    {// Loop over the headers in each row
-                                        headerGroup.headers.map(column => (
-                                            // Apply the header cell props
-                                            <th {...column.getHeaderProps()}>
-                                                {// Render the header
-                                                    column.render('Header')}
-                                            </th>
-                                        ))}
-                                </tr>
-                            ))}
-                    </thead>
-                    {/* Apply the table body props */}
-                    <tbody {...getTableBodyProps()}>
-                        {// Loop over the table rows
-                            rows.map(row => {
-                                // Prepare the row for display
-                                prepareRow(row)
-                                return (
-                                    // Apply the row props
-                                    <tr {...row.getRowProps()}>
-                                        {// Loop over the rows cells
-                                            row.cells.map(cell => {
-                                                // Apply the cell props
-                                                return (
-                                                    <td {...cell.getCellProps()}>
-                                                        {// Render the cell contents
-                                                            cell.render('Cell')}
-                                                    </td>
-                                                )
-                                            })}
-                                    </tr>
-                                )
-                            })}
-                    </tbody>
-                </table>
-
+                <Table className={styles.table}>
+                    <Thead className={styles.thead}>
+                        <Tr>
+                            <Th>ORDER</Th>
+                            <Th>DATE</Th>
+                            <Th>STATUS</Th>
+                            <Th>TOTAL</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody className={styles.tbody}>
+                        {orders.map(o => (
+                            <Tr key={o.id}>
+                                <Td>{o.id}</Td>
+                                <Td>{formatDateLong(o.createdAt)}</Td>
+                                <Td>{o.status}</Td>
+                                <Td>{o.total}</Td>
+                            </Tr>
+                        ))}
+                    </Tbody>
+                </Table>
             </main>
         </Layout>
     )
