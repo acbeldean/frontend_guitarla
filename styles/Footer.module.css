@@ -1,10 +1,10 @@
 .footer {
     background-color: var(--negro);
-    padding: 5rem;
+    padding: 2rem;
     margin-top: 5rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 850px) {
     .content {
         display: flex;
         justify-content: space-between;
@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 850px) {
     .nav {
         flex-direction: row;
         gap: 2rem;
