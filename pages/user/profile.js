@@ -5,7 +5,7 @@ import Loader from "../../components/Loader"
 import axios from "axios"
 import nookies from 'nookies'
 import { Formik, Form, Field } from 'formik'
-import * as Yup from 'Yup'
+import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import useAuth from "../../hooks/useAuth"
 import styles from '../../styles/Register.module.css'

@@ -7,7 +7,7 @@ import nookies from 'nookies'
 import { setCookie } from "nookies"
 import { useRouter } from "next/router"
 import { Formik, Form, Field } from 'formik'
-import * as Yup from 'Yup'
+import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import useAuth from "../hooks/useAuth"
 import styles from '../styles/Register.module.css'
