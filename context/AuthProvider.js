@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
                         path: '/'
                     })
                     setAuthLoading(false)
+                    router.push('/')
                 })
             } else {
                 setTimeout(() => {

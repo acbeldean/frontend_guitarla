@@ -76,9 +76,9 @@ const Header = ({ guitar }) => {
                                 />
                             </button>
                             <ul className={`${active ? styles.active : ''}`}>
-                                <li><Link href='/user/profile'>Profile</Link></li>
-                                <li><Link href='/user/orders'>My Orders</Link></li>
-                                <li><a onClick={() => logOut()}>Log Out</a></li>
+                                <li onClick={() => setActive(!active)}><Link href='/user/profile'>Profile</Link></li>
+                                <li onClick={() => setActive(!active)}><Link href='/user/orders'>My Orders</Link></li>
+                                <li onClick={() => setActive(!active)}><a onClick={() => logOut()}>Log Out</a></li>
                             </ul>
                         </nav>
                     ) : (

@@ -7,7 +7,7 @@ import useGuitar from "../../hooks/useGuitar"
 const Product = ({ guitar }) => {
     const [quantity, setQuantity] = useState(1)
 
-    const { id, name, description, image, price, url } = guitar[0]
+    const { _id, name, description, image, price, url } = guitar[0]
 
     const { addToCart } = useGuitar()
 
@@ -16,7 +16,7 @@ const Product = ({ guitar }) => {
 
         if (quantity > 0) {
             const chosenGuitar = {
-                id,
+                _id,
                 image: image.url,
                 name,
                 price,

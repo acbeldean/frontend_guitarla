@@ -1,20 +1,25 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Layout from "../../components/Layout"
 import Error from "../../components/Error"
 import Loader from "../../components/Loader"
 import axios from "axios"
 import nookies from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import useAuth from "../../hooks/useAuth"
 import styles from '../../styles/Register.module.css'
+import { useRouter } from "next/router"
 
-const Profile = ({ user }) => {
+const Profile = () => {
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState({})
 
     const { auth, setAuth } = useAuth()
+
+    const router = useRouter()
 
     const userSchema = Yup.object().shape({
         name: Yup.string()
@@ -32,6 +37,31 @@ const Profile = ({ user }) => {
         passwordConfirm: Yup.string()
             .oneOf([Yup.ref('password'), null], "Passwords don't match")
     })
+
+    useEffect(() => {
+        const getProfile = async () => {
+            const token = parseCookies().token
+            try {
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/users/me`
+                const { data } = await axios(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                const { name, email, _id } = data
+                setUser({ name, email, _id })
+            } catch (error) {
+                destroyCookie({}, 'token', {
+                    path: '/'
+                })
+                setAuth({})
+                router.push('/')
+            }
+            setLoading(false)
+        }
+        getProfile()
+    }, [])
 
     const handleSubmit = async values => {
         setLoading(true)
@@ -167,32 +197,8 @@ export async function getServerSideProps(ctx) {
             },
         };
     }
-    let user = {}
-    try {
-        const url = `${process.env.API_URL}/users/me`
-        const response = await fetch(url, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`
-            }
-        })
-        const userResponse = await response.json()
-        const { name, email, _id } = userResponse
-        user = { name, email, _id }
-    } catch (error) {
-        nookies.destroy(ctx, 'token', {
-            path: '/'
-        })
-        return {
-            reload: {
-                destination: "/",
-                permanent: false,
-            }
-        }
-    }
-
     return {
-        props: { user }
+        props: {}
     }
 }
 
