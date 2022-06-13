@@ -12,7 +12,7 @@ import useAuth from "../hooks/useAuth"
 import { useState } from "react"
 import Loader from "../components/Loader"
 
-const login = () => {
+const Login = () => {
 
     const [loading, setLoading] = useState(false)
 
@@ -127,4 +127,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default login
+export default Login

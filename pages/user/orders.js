@@ -7,7 +7,7 @@ import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import styles from '../../styles/Orders.module.css'
 import { formatDateLong } from '../../helpers'
 
-const orders = ({ orders }) => {
+const Orders = ({ orders }) => {
     return (
         <Layout
             page={'Order History'}
@@ -91,4 +91,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default orders
+export default Orders

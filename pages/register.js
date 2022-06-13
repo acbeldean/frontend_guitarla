@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import useAuth from "../hooks/useAuth"
 import styles from '../styles/Register.module.css'
 
-const register = () => {
+const Register = () => {
 
     const [loading, setLoading] = useState(false)
 
@@ -172,4 +172,4 @@ export async function getServerSideProps(ctx) {
     }
 }
 
-export default register
+export default Register
