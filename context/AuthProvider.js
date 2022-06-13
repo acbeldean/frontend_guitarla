@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
     const logOut = () => {
         destroyCookie(null, 'token')
         setAuth({})
-        router.push('/')
+        router.reload('/')
     }
 
     return (
