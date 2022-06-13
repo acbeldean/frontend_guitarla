@@ -9,7 +9,6 @@ const PostCourse = ({ course }) => {
     return (
         <article>
             <Image
-                priority='true'
                 layout='responsive'
                 width={800}
                 height={600}

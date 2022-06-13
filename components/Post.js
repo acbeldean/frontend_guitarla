@@ -9,7 +9,6 @@ const Post = ({ post }) => {
     return (
         <article>
             <Image
-                priority='true'
                 layout='responsive'
                 width={800}
                 height={600}
