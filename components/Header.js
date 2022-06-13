@@ -38,6 +38,7 @@ const Header = ({ guitar }) => {
                 <nav className={styles.navBar}>
                     <Link href='/'>Home</Link>
                     <Link href='/blog'>Blog</Link>
+                    <Link href='/courses'>Courses</Link>
                     <Link href='/about'>About Us</Link>
                     <Link href='/shop'>Shop</Link>
                     <Link href='/cart'>

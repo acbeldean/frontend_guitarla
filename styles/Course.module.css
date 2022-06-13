@@ -6,7 +6,8 @@
     }
 }
 
-.content {
+.content,
+.contentEven {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,9 +17,14 @@
     .content {
         grid-column: 2 / 3;
     }
+
+    .contentEven {
+        grid-column: 0 / 1;
+    }
 }
 
-.content h2 {
+.content h2,
+.contentEven h2 {
     margin: 5rem 0 0 0;
 }
 

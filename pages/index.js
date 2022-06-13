@@ -1,9 +1,9 @@
 import Layout from '../components/Layout'
 import Listing from '../components/Listing'
-import Course from '../components/Course'
+import CourseList from '../components/CourseList'
 import BlogList from '../components/BlogList'
 
-export default function Home({ guitars, course, posts }) {
+export default function Home({ guitars, courses, posts }) {
     return (
         <Layout
             page={'Home'}
@@ -15,8 +15,8 @@ export default function Home({ guitars, course, posts }) {
                     guitars={guitars}
                 />
             </main>
-            <Course
-                course={course}
+            <CourseList
+                courses={courses}
             />
             <section className='contenedor'>
                 <BlogList
@@ -29,7 +29,7 @@ export default function Home({ guitars, course, posts }) {
 
 export async function getServerSideProps() {
     const urlGuitars = `${process.env.API_URL}/guitars?_sort=createdAt:desc`
-    const urlCourses = `${process.env.API_URL}/courses`
+    const urlCourses = `${process.env.API_URL}/courses?_limit=3&_sort=createdAt:desc`
     const urlBlog = `${process.env.API_URL}/blogs?_limit=3&_sort=createdAt:desc`
 
     const [responseGuitars, responseCourses, responseBlog] = await Promise.all([
@@ -38,7 +38,7 @@ export async function getServerSideProps() {
         fetch(urlBlog)
     ])
 
-    const [guitars, course, posts] = await Promise.all([
+    const [guitars, courses, posts] = await Promise.all([
         responseGuitars.json(),
         responseCourses.json(),
         responseBlog.json()
@@ -47,7 +47,7 @@ export async function getServerSideProps() {
     return {
         props: {
             guitars,
-            course,
+            courses,
             posts
         }
     }
