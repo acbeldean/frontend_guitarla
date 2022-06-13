@@ -176,8 +176,8 @@ export async function getServerSideProps(ctx) {
                 Authorization: `Bearer ${token}`
             }
         })
-        const { name, email, id } = data
-        user = { name, email, id }
+        const { name, email, _id } = data
+        user = { name, email, _id }
     } catch (error) {
         nookies.destroy(ctx, 'token', {
             path: '/'
