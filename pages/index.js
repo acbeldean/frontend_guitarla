@@ -27,7 +27,7 @@ export default function Home({ guitars, courses, posts }) {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const urlGuitars = `${process.env.API_URL}/guitars?_sort=createdAt:desc`
     const urlCourses = `${process.env.API_URL}/courses?_limit=3&_sort=createdAt:desc`
     const urlBlog = `${process.env.API_URL}/blogs?_limit=3&_sort=createdAt:desc`

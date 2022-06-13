@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Layout from "../../components/Layout"
 import nookies from 'nookies'
-import axios from "axios"
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import styles from '../../styles/Orders.module.css'
@@ -62,13 +61,14 @@ export async function getServerSideProps(ctx) {
     let orders = []
     try {
         const url = `${process.env.API_URL}/orders?_sort=createdAt:desc`
-        const { data } = await axios(url, {
+        const response = await fetch(url, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             }
         })
-        orders = data.map(order => {
+        const ordersResponse = await response.json()
+        orders = ordersResponse.map(order => {
             const { cart, owner, published_at, updatedAt, __v, ...newOrder } = order
             return newOrder
         })
@@ -77,7 +77,7 @@ export async function getServerSideProps(ctx) {
             path: '/'
         })
         return {
-            redirect: {
+            reload: {
                 destination: "/",
                 permanent: false,
             }

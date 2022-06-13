@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import Layout from "../../components/Layout"
 import Error from "../../components/Error"
 import Loader from "../../components/Loader"
@@ -170,20 +170,21 @@ export async function getServerSideProps(ctx) {
     let user = {}
     try {
         const url = `${process.env.API_URL}/users/me`
-        const { data } = await axios(url, {
+        const response = await fetch(url, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`
             }
         })
-        const { name, email, _id } = data
+        const userResponse = await response.json()
+        const { name, email, _id } = userResponse
         user = { name, email, _id }
     } catch (error) {
         nookies.destroy(ctx, 'token', {
             path: '/'
         })
         return {
-            redirect: {
+            reload: {
                 destination: "/",
                 permanent: false,
             }
