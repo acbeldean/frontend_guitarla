@@ -40,6 +40,31 @@
     margin-top: 2rem;
 }
 
+@media (max-width: 480px) {
+    .navBar {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 0;
+        justify-content: center;
+    }
+
+    .navBar a {
+        text-align: center;
+    }
+
+    .bar::after {
+        content: '';
+        width: 260px;
+        height: 2px;
+        background-color: var(--primary);
+        margin: 13rem auto 0 auto;
+        position: absolute;
+        border-radius: 30rem;
+    }
+
+}
+
 .navBar a {
     color: var(--blanco);
     text-decoration: none;
