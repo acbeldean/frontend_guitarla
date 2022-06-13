@@ -58,10 +58,14 @@ const profile = ({ user }) => {
             setLoading(false)
             toast.success('User updated.')
         } catch (error) {
-            if(error.response.data.message[0].messages[0].message === 'username.alreadyTaken.') {
-                toast.error('Email is already taken.')    
+            if (typeof error.response.data.message === 'object') {
+                if (error.response.data.message[0].messages[0].message === 'username.alreadyTaken.') {
+                    toast.error('Email is already taken.')
+                } else {
+                    toast.error('There was an error with the request.')
+                }
             } else {
-                toast.error('There was an error with the request.')
+                toast.error(error.response.data.message)
             }
             setLoading(false)
         }
