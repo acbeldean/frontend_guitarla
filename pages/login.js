@@ -33,7 +33,7 @@ const login = () => {
             password: values.password
         }).then(function (response) {
             let auth = {
-                username: response.data.user.username,
+                name: response.data.user.name,
                 token: response.data.jwt
             }
             setCookie(null, 'token', auth.token, {

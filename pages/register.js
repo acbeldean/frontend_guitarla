@@ -21,7 +21,7 @@ const register = () => {
     const { setAuth } = useAuth()
 
     const userSchema = Yup.object().shape({
-        username: Yup.string()
+        name: Yup.string()
             .required('Name cannot be blank')
             .min(6, 'Name must have 6 characters or more')
             .max(40, 'Name cannot have more than 40 characters')
@@ -44,30 +44,30 @@ const register = () => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}/auth/local/register`
         try {
             const { data } = await axios.post(url, {
-                username: values.username,
+                name: values.name,
                 email: values.email,
+                username: values.email,
                 password: values.password
             })
             const { jwt: token, user } = data
-            const { username } = user
-            setAuth({ token, username })
+            const { name } = user
+            setAuth({ token, name })
             setCookie(null, 'token', token, {
                 maxAge: 30 * 24 * 60 * 60,
                 path: '/',
             })
-        } catch (error) {
-            if (error.response) {
-                toast.error(error.response.data.message[0].messages[0].message)
-            } else {
-                // console.log(error)
-            }
-            setLoading(false)
-        } finally {
             if (router.query.path) {
                 router.push(router.query.path)
             } else {
                 router.push('/')
             }
+        } catch (error) {
+            if (error.response) {
+                toast.error(error.response.data.message[0].messages[0].message)
+            } else {
+                console.log(error)
+            }
+            setLoading(false)
         }
     }
 
@@ -80,7 +80,7 @@ const register = () => {
                 {loading ? <Loader /> : (
                     <Formik
                         initialValues={{
-                            username: '',
+                            name: '',
                             email: '',
                             password: '',
                             passwordConfirm: ''
@@ -95,15 +95,15 @@ const register = () => {
                             return (
                                 <Form className={styles.form}>
                                     <div>
-                                        <label htmlFor="username">Name</label>
+                                        <label htmlFor="name">Name</label>
                                         <Field
-                                            id='username'
-                                            name='username'
+                                            id='name'
+                                            name='name'
                                             type='text'
                                             placeholder='Johnny Test'
                                         />
-                                        {errors.username && touched.username ? (
-                                            <Error>{errors.username}</Error>
+                                        {errors.name && touched.name ? (
+                                            <Error>{errors.name}</Error>
                                         ) : null}
                                     </div>
                                     <div>

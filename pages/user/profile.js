@@ -17,7 +17,7 @@ const profile = ({ user }) => {
     const { auth, setAuth } = useAuth()
 
     const userSchema = Yup.object().shape({
-        username: Yup.string()
+        name: Yup.string()
             .required('Name cannot be blank')
             .min(6, 'Name must have 6 characters or more')
             .max(40, 'Name cannot have more than 40 characters')
@@ -38,8 +38,9 @@ const profile = ({ user }) => {
         try {
             const url = `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}`
             let formData = {
-                username: values.username,
-                email: values.email
+                name: values.name,
+                email: values.email,
+                username: values.email
             }
             if (values.password !== '') {
                 formData = { ...formData, password: values.password }
@@ -50,14 +51,18 @@ const profile = ({ user }) => {
                     Authorization: `Bearer ${auth.token}`
                 }
             })
-            const { username, email } = data
-            user = { username, email }
-            setAuth({ ...auth, username })
+            const { name, email } = data
+            user.name = name
+            user.email = email
+            setAuth({ ...auth, name })
             setLoading(false)
             toast.success('User updated.')
         } catch (error) {
-            console.log(error)
-            toast.error('There was an error with the request.')
+            if(error.response.data.message[0].messages[0].message === 'username.alreadyTaken.') {
+                toast.error('Email is already taken.')    
+            } else {
+                toast.error('There was an error with the request.')
+            }
             setLoading(false)
         }
     }
@@ -71,7 +76,7 @@ const profile = ({ user }) => {
                 {loading ? <Loader /> : (
                     <Formik
                         initialValues={{
-                            username: user.username,
+                            name: user.name,
                             email: user.email,
                             password: '',
                             passwordConfirm: ''
@@ -86,15 +91,15 @@ const profile = ({ user }) => {
                             return (
                                 <Form className={styles.form}>
                                     <div>
-                                        <label htmlFor="username">Name</label>
+                                        <label htmlFor="name">Name</label>
                                         <Field
-                                            id='username'
-                                            name='username'
+                                            id='name'
+                                            name='name'
                                             type='text'
                                             placeholder='Johnny Test'
                                         />
-                                        {errors.username && touched.username ? (
-                                            <Error>{errors.username}</Error>
+                                        {errors.name && touched.name ? (
+                                            <Error>{errors.name}</Error>
                                         ) : null}
                                     </div>
                                     <div>
@@ -167,8 +172,8 @@ export async function getServerSideProps(ctx) {
                 Authorization: `Bearer ${token}`
             }
         })
-        const { username, email, id } = data
-        user = { username, email, id }
+        const { name, email, id } = data
+        user = { name, email, id }
     } catch (error) {
         nookies.destroy(ctx, 'token')
         return {

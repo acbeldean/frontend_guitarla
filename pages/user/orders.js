@@ -25,20 +25,23 @@ const orders = ({ orders }) => {
                         </Tr>
                     </Thead>
                     <Tbody>
-                        {orders.map(o => (
-                            <Tr key={o.id}>
-                                <Td>
-                                    <Link
-                                        href={`/user/order/${o.id}`}
-                                    >
-                                        {o.id}
-                                    </Link>
-                                </Td>
-                                <Td>{formatDateLong(o.createdAt)}</Td>
-                                <Td>{o.status}</Td>
-                                <Td><span className={styles.price}>${o.total}</span></Td>
-                            </Tr>
-                        ))}
+                        {orders.length === 0 ? (
+                            <Tr><Td colSpan="4">No orders have been placed</Td></Tr>
+                        ) :
+                            orders.map(o => (
+                                <Tr key={o.id}>
+                                    <Td>
+                                        <Link
+                                            href={`/user/order/${o.id}`}
+                                        >
+                                            {o.id}
+                                        </Link>
+                                    </Td>
+                                    <Td>{formatDateLong(o.createdAt)}</Td>
+                                    <Td>{o.status}</Td>
+                                    <Td><span className={styles.price}>${o.total}</span></Td>
+                                </Tr>
+                            ))}
                     </Tbody>
                 </Table>
             </main>

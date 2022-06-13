@@ -16,7 +16,7 @@ const Header = ({ guitar }) => {
     const { cartCount } = useGuitar()
 
     const { auth, authLoading, logOut } = useAuth()
-    const { username } = auth
+    const { name } = auth
 
     return (
         <header className={styles.header}>
@@ -58,14 +58,14 @@ const Header = ({ guitar }) => {
                     <div className={styles.loader}>
                         <Loader />
                     </div>
-                ) : username ?
+                ) : name ?
                     (
                         <nav className={styles.dropdown}>
                             <button
                                 type='button'
                                 onClick={() => setActive(!active)}
                             >
-                                {username}
+                                {name}
                                 <Image
                                     layout='fixed'
                                     width={20}

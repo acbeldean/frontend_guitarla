@@ -24,9 +24,9 @@ const AuthProvider = ({ children }) => {
                         Authorization: `Bearer ${token}`
                     }
                 }).then(function (response) {
-                    const { username } = response.data
+                    const { name } = response.data
                     setAuth({
-                        username,
+                        name,
                         token
                     })
                     setAuthLoading(false)
