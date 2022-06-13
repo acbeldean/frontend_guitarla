@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import styles from '../styles/Course.module.css'
 
 const Course = ({ course, index }) => {
@@ -9,7 +10,7 @@ const Course = ({ course, index }) => {
                 <div className={`${index === 0 || (index / 2) === 1 ? styles.contentEven : styles.content}`}>
                     <h2 className='heading'>{title}</h2>
                     <p className={styles.text}>{content}</p>
-                    
+
                     <Link
                         href={`/course/${url}`}
                     >
