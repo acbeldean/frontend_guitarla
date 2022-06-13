@@ -36,7 +36,7 @@ const profile = ({ user }) => {
     const handleSubmit = async values => {
         setLoading(true)
         try {
-            const url = `${process.env.NEXT_PUBLIC_API_URL}/users/62a6e08356a4c21d4c0d2f3f`
+            const url = `${process.env.NEXT_PUBLIC_API_URL}/users/${user.id}`
             let formData = {
                 name: values.name,
                 email: values.email,
