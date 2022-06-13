@@ -2,15 +2,21 @@ import styles from '../styles/Course.module.css'
 
 const Course = ({ course, index }) => {
     const { title, image, content, url } = course
-    
+
     return (
         <section>
             <div className={`contenedor ${styles.grid}`}>
                 <div className={`${index === 0 || (index / 2) === 1 ? styles.contentEven : styles.content}`}>
                     <h2 className='heading'>{title}</h2>
                     <p className={styles.text}>{content}</p>
-
-                    <a href={`/course/${url}`} className={styles.link}>More info</a>
+                    
+                    <Link
+                        href={`/course/${url}`}
+                    >
+                        <a className={styles.link}>
+                            More info
+                        </a>
+                    </Link>
                 </div>
             </div>
 
