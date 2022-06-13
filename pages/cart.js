@@ -64,7 +64,7 @@ const Cart = () => {
                             : (
                                 cart.map(product => (
                                     <div
-                                        key={product.id}
+                                        key={product._id}
                                         className={styles.product}
                                     >
                                         <div>
@@ -104,7 +104,7 @@ const Cart = () => {
                                         <button
                                             type="button"
                                             className={styles.delete}
-                                            onClick={e => deleteProduct(product.id)}
+                                            onClick={e => deleteProduct(product._id)}
                                         >X</button>
                                     </div>
                                 ))

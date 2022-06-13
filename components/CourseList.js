@@ -15,7 +15,7 @@ const CourseList = ({ courses }) => {
                 <div className={styles.blog}>
                     {courses.map(course => (
                         <PostCourse
-                            key={course.id}
+                            key={course._id}
                             course={course}
                         />
                     ))}
@@ -24,7 +24,7 @@ const CourseList = ({ courses }) => {
                 <div>
                     {courses.map((course, index) => (
                         <Course
-                            key={course.id}
+                            key={course._id}
                             index={index}
                             course={course}
                         />

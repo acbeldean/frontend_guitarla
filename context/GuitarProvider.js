@@ -30,9 +30,9 @@ const GuitarProvider = ({ children }) => {
     }, [cart])
 
     const addToCart = product => {
-        if (cart.some(piece => piece.id === product.id)) {
+        if (cart.some(piece => piece._id === product._id)) {
             const updatedCart = cart.map(piece => {
-                if (piece.id === product.id) {
+                if (piece._id === product._id) {
                     piece.quantity += product.quantity
                 }
                 return piece
@@ -46,7 +46,7 @@ const GuitarProvider = ({ children }) => {
 
     const updateQuantity = (product, increase) => {
         const updatedCart = cart.map(piece => {
-            if (piece.id === product.id) {
+            if (piece._id === product._id) {
                 increase ? piece.quantity++ : piece.quantity > 1 && piece.quantity--
             }
             return piece
@@ -55,7 +55,7 @@ const GuitarProvider = ({ children }) => {
     }
 
     const deleteProduct = id => {
-        const updatedCart = cart.filter(product => product.id !== id)
+        const updatedCart = cart.filter(product => product._id !== id)
         setCart(updatedCart)
         toast.success('Item removed from cart.')
     }

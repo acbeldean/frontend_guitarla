@@ -29,12 +29,12 @@ const orders = ({ orders }) => {
                             <Tr><Td colSpan="4">No orders have been placed</Td></Tr>
                         ) :
                             orders.map(o => (
-                                <Tr key={o.id}>
+                                <Tr key={o._id}>
                                     <Td>
                                         <Link
-                                            href={`/user/order/${o.id}`}
+                                            href={`/user/order/${o._id}`}
                                         >
-                                            {o.id}
+                                            {o._id}
                                         </Link>
                                     </Td>
                                     <Td>{formatDateLong(o.createdAt)}</Td>

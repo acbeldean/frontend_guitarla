@@ -22,7 +22,7 @@ const Order = ({ order }) => {
                         : (
                             order.cart.map(product => (
                                 <div
-                                    key={product.id}
+                                    key={product._id}
                                     className={styles.product}
                                 >
                                     <div>
@@ -55,7 +55,7 @@ const Order = ({ order }) => {
                     <h2>Order Summary</h2>
                     <div>
                         <p className={styles.total}>{formatDateLong(order.createdAt)}</p>
-                        <p>Tracking: {order.id}</p>
+                        <p>Tracking: {order._id}</p>
                         <p>Status: {order.status}</p>
                         <p>Subtotal: ${(total - (total * 0.2)).toFixed(2)}</p>
                         <p>Tax (VAT 20%): ${(total * 0.2).toFixed(2)}</p>
