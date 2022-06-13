@@ -9,17 +9,49 @@ import useAuth from "../hooks/useAuth"
 import { useRouter } from "next/router"
 import axios from "axios"
 import { toast } from "react-toastify"
-import { destroyCookie } from "nookies"
+import { destroyCookie, parseCookies } from "nookies"
 
 const Cart = () => {
     const [total, setTotal] = useState(0)
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const { cart, setCart, updateQuantity, deleteProduct } = useGuitar()
 
-    const { auth } = useAuth()
+    const { auth, setAuth } = useAuth()
 
     const router = useRouter()
+
+    useEffect(() => {
+        const getAuth = async () => {
+            const { token } = parseCookies()
+            if (token) {
+                const url = `${process.env.NEXT_PUBLIC_API_URL}/users/me`
+                await axios(url, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then(function (response) {
+                    const { name } = response.data
+                    setAuth({
+                        name,
+                        token
+                    })
+                    setLoading(false)
+                }).catch(function (error) {
+                    destroyCookie({}, 'token', {
+                        path: '/'
+                    })
+                    setAuth({})
+                    setLoading(false)
+                })
+            } else {
+                setAuth({})
+                setLoading(false)
+            }
+        }
+        getAuth()
+    }, [])
 
     useEffect(() => {
         const calcTotal = cart.reduce(
@@ -31,11 +63,12 @@ const Cart = () => {
     const placeOrder = async () => {
         try {
             setLoading(true)
+            const token = parseCookies().token
             const url = `${process.env.NEXT_PUBLIC_API_URL}/orders`
             await axios.post(url, { cart, total }, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${auth.token}`
+                    Authorization: `Bearer ${token}`
                 }
             })
             destroyCookie({}, 'cart', {

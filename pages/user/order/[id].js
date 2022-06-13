@@ -2,7 +2,7 @@ import Layout from "../../../components/Layout"
 import Image from 'next/image'
 import styles from '../../../styles/Cart.module.css'
 import axios from "axios"
-import nookies, { destroyCookie, parseCookies } from 'nookies'
+import { destroyCookie, parseCookies } from 'nookies'
 import { formatDateLong } from "../../../helpers"
 import { useEffect, useState } from "react"
 import Loader from "../../../components/Loader"
@@ -35,6 +35,7 @@ const UserOrder = () => {
                 }
                 const { owner, published_at, updatedAt, __v, ...newOrder } = data[0]
                 setOrder(newOrder)
+                setLoading(false)
             } catch (error) {
                 destroyCookie({}, 'token', {
                     path: '/'
@@ -42,7 +43,6 @@ const UserOrder = () => {
                 setAuth({})
                 router.push('/')
             }
-            setLoading(false)
         }
         getOrder()
     }, [])
@@ -108,22 +108,6 @@ const UserOrder = () => {
             )}
         </Layout>
     )
-}
-
-export async function getServerSideProps(ctx) {
-    const token = nookies.get(ctx).token
-    if (token === undefined) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            }
-        }
-    }
-
-    return {
-        props: {}
-    }
 }
 
 export default UserOrder

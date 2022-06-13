@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Layout from "../../components/Layout"
 import { parseCookies, destroyCookie } from 'nookies'
-import nookies from 'nookies'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import styles from '../../styles/Orders.module.css'
@@ -37,6 +36,7 @@ const Orders = () => {
                     return newOrder
                 })
                 setOrders(filteredData)
+                setLoading(false)
             } catch (error) {
                 destroyCookie({}, 'token', {
                     path: '/'
@@ -44,7 +44,6 @@ const Orders = () => {
                 setAuth({})
                 router.push('/')
             }
-            setLoading(false)
         }
         getOrders()
     }, [])
@@ -90,21 +89,6 @@ const Orders = () => {
             </main>
         </Layout>
     )
-}
-
-export async function getServerSideProps(ctx) {
-    const token = nookies.get(ctx).token
-    if (token === undefined) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            }
-        }
-    }
-    return {
-        props: {}
-    }
 }
 
 export default Orders

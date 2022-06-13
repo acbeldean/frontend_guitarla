@@ -3,7 +3,6 @@ import Layout from "../../components/Layout"
 import Error from "../../components/Error"
 import Loader from "../../components/Loader"
 import axios from "axios"
-import nookies from 'nookies'
 import { destroyCookie, parseCookies } from 'nookies'
 import { Formik, Form, Field } from 'formik'
 import * as Yup from 'yup'
@@ -51,6 +50,7 @@ const Profile = () => {
                 })
                 const { name, email, _id } = data
                 setUser({ name, email, _id })
+                setLoading(false)
             } catch (error) {
                 destroyCookie({}, 'token', {
                     path: '/'
@@ -58,7 +58,6 @@ const Profile = () => {
                 setAuth({})
                 router.push('/')
             }
-            setLoading(false)
         }
         getProfile()
     }, [])
@@ -185,21 +184,6 @@ const Profile = () => {
             </main>
         </Layout>
     )
-}
-
-export async function getServerSideProps(ctx) {
-    const token = nookies.get(ctx).token
-    if (token === undefined) {
-        return {
-            redirect: {
-                destination: "/",
-                permanent: false,
-            },
-        };
-    }
-    return {
-        props: {}
-    }
 }
 
 export default Profile
