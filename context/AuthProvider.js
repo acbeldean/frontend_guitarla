@@ -31,7 +31,9 @@ const AuthProvider = ({ children }) => {
                     })
                     setAuthLoading(false)
                 }).catch(function (error) {
-                    destroyCookie(null, 'token')
+                    destroyCookie({}, 'token', {
+                        path: '/'
+                    })
                     setAuthLoading(false)
                 })
             } else {
@@ -44,7 +46,9 @@ const AuthProvider = ({ children }) => {
     }, [])
 
     const logOut = () => {
-        destroyCookie(null, 'token')
+        destroyCookie({}, 'token', {
+            path: '/'
+        })
         setAuth({})
         router.reload('/')
     }

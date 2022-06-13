@@ -179,7 +179,9 @@ export async function getServerSideProps(ctx) {
         const { name, email, id } = data
         user = { name, email, id }
     } catch (error) {
-        nookies.destroy(ctx, 'token')
+        nookies.destroy(ctx, 'token', {
+            path: '/'
+        })
         return {
             redirect: {
                 destination: "/",

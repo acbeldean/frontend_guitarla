@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from "react"
-import { parseCookies, setCookie, destroyCookie } from 'nookies'
+import { parseCookies, setCookie } from 'nookies'
 import { toast } from 'react-toastify'
 
 const GuitarContext = createContext()

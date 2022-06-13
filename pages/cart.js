@@ -38,7 +38,9 @@ const Cart = () => {
                     Authorization: `Bearer ${auth.token}`
                 }
             })
-            destroyCookie(null, 'cart')
+            destroyCookie({}, 'cart', {
+                path: '/'
+            })
             setCart([])
             router.push('/user/orders')
         } catch (error) {

@@ -98,7 +98,9 @@ export async function getServerSideProps(ctx) {
         const { owner, published_at, updatedAt, __v, ...newOrder } = data[0]
         order = newOrder
     } catch (error) {
-        nookies.destroy(ctx, 'token')
+        nookies.destroy(ctx, 'token', {
+            path: '/'
+        })
         return {
             redirect: {
                 destination: "/",

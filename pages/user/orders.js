@@ -73,7 +73,9 @@ export async function getServerSideProps(ctx) {
             return newOrder
         })
     } catch (error) {
-        nookies.destroy(ctx, 'token')
+        nookies.destroy(ctx, 'token', {
+            path: '/'
+        })
         return {
             redirect: {
                 destination: "/",
