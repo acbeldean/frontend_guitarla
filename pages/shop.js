@@ -16,7 +16,7 @@ const Shop = ({ guitars }) => {
     )
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
     const url = `${process.env.API_URL}/guitars?_sort=createdAt:desc`
     const response = await fetch(url)
     const guitars = await response.json()
