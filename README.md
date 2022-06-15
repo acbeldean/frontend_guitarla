@@ -9,6 +9,7 @@
 
 Guitar LA es una aplicación web de una tienda digital de guitarras, la cual añade la funcionalidad de poder integrar cursos & blogs en la misma de una forma fácil y sencilla como si lo estuvieses haciendo en WordPress.
 
+[Memoria](https://github.com/acbeldean/frontend_guitarla/blob/main/GuitarLA%20-%20Memoria.pdf)
 
 ## Tecnologías
 
